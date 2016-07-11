@@ -4,7 +4,39 @@ This addon provides Ember-Data abstractions for the [Twitch API v3](https://gith
 
 ## Usage
 
-TBA
+
+### Configuration
+
+#### Registering to use the Twitch API
+In order to use this addon, you'll need to acquire the following items for your application:
+
+* Access Token:
+* Client ID:
+* redirectURI:
+
+client_id=[your client ID]
+&client_secret=[your client secret]
+&grant_type=authorization_code
+&redirect_uri=[your registered redirect URI]
+&code=[code received from redirect URI]
+&state=[your provided unique token]
+
+
+The [Twitch API Authentication Guide](https://github.com/justintv/Twitch-API/blob/master/authentication.md) covers these
+steps and more.
+
+
+#### Environment Options
+Once you've acquired the items above, you'll need to let `ember-data-twitch` discover them by setting them on the `ember-data-twitch` property of your app's configuration export in `config/environment.js`:
+
+```javascript
+// config/environment.js
+ENV['ember-data-twitch'] = {
+  clientId:
+  redirectURI:
+  scope:
+};
+```
 
 ## Contributing
 
