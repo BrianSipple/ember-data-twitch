@@ -23,7 +23,7 @@ module.exports = function(environment) {
     redirectURI: 'http://localhost:4233/oauth_authorization',
     clientId: 'e18ok8watl2s2y3t86yhyyibm3ew3k2',
     clientSecret: 'test_secret'
-  },
+  };
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
