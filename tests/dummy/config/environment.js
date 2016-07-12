@@ -20,8 +20,9 @@ module.exports = function(environment) {
   };
 
   ENV['ember-data-twitch'] = {
-    accessToken: 'foo',
-    clientId: 'bar'
+    redirectURI: 'http://localhost:4233/oauth_authorization',
+    clientId: 'e18ok8watl2s2y3t86yhyyibm3ew3k2',
+    clientSecret: 'test_secret'
   },
 
   if (environment === 'development') {

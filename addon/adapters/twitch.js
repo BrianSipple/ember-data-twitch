@@ -11,7 +11,7 @@ export default JSONAPIAdapter.extend({
   dataType: 'jsonp',
   apiKey: null,
 
-  session: injectService(),
+  session: injectService('twitch-session'),
 
   // headers: compted('session.accessToken', {
   //   get() {
@@ -27,7 +27,8 @@ export default JSONAPIAdapter.extend({
   init() {
     this._super(...arguments);
 
-     this._initApiKey();
+    debugger;
+    this._initApiKey();
 
   },
 
@@ -40,11 +41,7 @@ export default JSONAPIAdapter.extend({
   },
 
   _initApiKey() {
+    const session = this.get('session');
     debugger;
-    const ENV = getOwner(this).resolveRegistration('config:environment');
-    if (isPresent(ENV) && isPresent(ENV['ember-data-twitch'])) {
-
-    }
-
   }
 });
