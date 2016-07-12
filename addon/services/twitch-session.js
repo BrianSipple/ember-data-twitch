@@ -17,7 +17,7 @@ export default Service.extend({
 
   init() {
     this._super(...arguments);
-
+    debugger;
     const config = getWithDefault(this, 'twitchConfig', {});
 
     this.set('clientId', get(config, 'clientId'));
