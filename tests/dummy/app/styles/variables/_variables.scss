@@ -1,0 +1,31 @@
+/**
+ * -----------------------------------------
+ * COLORS
+ * -----------------------------------------
+ */
+$theme-color__primary-1--300: hsla(261, 43%, 55%, 1.00);
+$theme-color__primary-1--500: hsla(261, 43%, 45%, 1.00);
+
+$theme-color__nearWhite: hsla(0, 0%, 92%, 1.00);
+
+
+/**
+ * -----------------------------------------
+ * ANIMATION
+ * -----------------------------------------
+ */
+$easing__ease-in-quad: cubic-bezier(0.550, 0.085, 0.680, 0.530);
+$easing__ease-out-cubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+
+
+
+/**
+ * -----------------------------------------
+ * DIMENSIONS
+ * -----------------------------------------
+ */
+
+/*
+ * 180:130 padding ratio to align content aspect ratio with human FOV
+ */
+$padding__content-box: 0.75em 1.05em;

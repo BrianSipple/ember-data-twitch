@@ -1,0 +1,33 @@
+.c-navbar {
+  height: 4rem;
+  background-color: white;
+  border: 1px solid $theme-color__primary-1--500;
+  box-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.43);
+  display: flex;
+  flex-wrap: nowrap;
+
+  .c-navbar__content-section,
+  .c-navbar__logo-section {
+    display: flex;
+    align-items: center;
+  }
+
+  .c-navbar__logo-section {
+    flex-grow: 0;
+    background-color: $theme-color__primary-1--500;
+  }
+
+  .c-navbar__content-section {
+    flex-grow: 1;
+  }
+
+  .c-navbar__logo {
+    color: $theme-color__nearWhite;
+    font-size: 1.5em;
+    text-decoration: none;
+  }
+
+  .c-navbar__login-button {
+    margin-left: auto;
+  }
+}

@@ -16,14 +16,18 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+    },
+
+    twitch: {
+      redirectURI: 'http://localhost:4233/twitch-auth',
+      clientId: 'e18ok8watl2s2y3t86yhyyibm3ew3k2',
+      tokenHandlerRoute: '/twitch-token'
+      // responseType: 'token',
+
     }
   };
 
-  ENV['ember-data-twitch'] = {
-    redirectURI: 'http://localhost:4233/oauth_authorization',
-    clientId: 'e18ok8watl2s2y3t86yhyyibm3ew3k2',
-    clientSecret: 'test_secret'
-  };
+
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;

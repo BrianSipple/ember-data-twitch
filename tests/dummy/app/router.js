@@ -8,7 +8,8 @@ const Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route('index', { path: '/' });
-  this.route('videos');
+    this.route('videos');
+    this.route('twitch-auth');
 });
 
 export default Router;

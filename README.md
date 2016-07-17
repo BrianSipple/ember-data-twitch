@@ -7,8 +7,13 @@ This addon provides Ember-Data abstractions for the [Twitch API v3](https://gith
 
 ### Configuration
 
-#### Registering to use the Twitch API
-In order to use this addon, you'll need to acquire the following items for your application:
+#### Registering your app to use the Twitch API
+
+Some requests to the Twitch API require authentication (TODO: which). In order for `ember-data-twitch` to perform these, you'll
+
+[need to make sure you've authenticated through the `twitch-session` service.]
+
+In order to use this addon, you'll need to acquire the following items for your application an :
 
 * Access Token:
 * Client ID:
@@ -37,6 +42,10 @@ ENV['ember-data-twitch'] = {
   scope:
 };
 ```
+
+#### Authorizing ember-data-twitch
+
+The final step is to ...?
 
 ## Contributing
 

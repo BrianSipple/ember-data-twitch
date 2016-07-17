@@ -1,11 +1,13 @@
-<h1>Ember Data Twitch</h1>
+<div class="c-navbar u-relative">
 
-<nav>
-  <ul>
-    <li>{{#link-to 'videos'}}Videos{{/link-to}}</li>
-    {{!-- <li>{{#link-to}}{{/link-to}}</li>
-    <li>{{#link-to}}{{/link-to}}</li>
-    <li>{{#link-to}}{{/link-to}}</li>
-    <li>{{#link-to}}{{/link-to}}</li> --}}
-  </ul>
-</nav>
+  <section class="c-navbar__logo-section o-content-box u-fill-height">
+    {{#link-to 'index' class="c-navbar__logo"}}Ember Data Twitch{{/link-to}}
+  </section>
+
+  <section class="c-navbar__content-section u-fill-height o-content-box">
+    <button class="c-button c-button--primary c-navbar__login-button" {{action 'authenticate'}}>Authenticate with Twitch</button>
+  </section>
+
+</div>
+
+{{outlet}}
