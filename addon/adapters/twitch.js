@@ -13,7 +13,7 @@ export default JSONAPIAdapter.extend({
   namespace: 'kraken',
   apiKey: null,
 
-  defaultSerializer: '-twitch',
+  defaultSerializer: 'twitch',
 
   headers: {
     'Accept': 'application/vnd.twitchtv.v3+json'

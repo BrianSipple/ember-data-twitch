@@ -1,7 +1,8 @@
 import Service from 'ember-service';
 import injectService from 'ember-service/inject';
-import { task, timeout } from 'ember-concurrency';
-import { or } from 'ember-computed';
+import { task, timeout, taskGroup } from 'ember-concurrency';
+import { bool } from 'ember-computed';
+import getOwner from 'ember-owner/get';
 
 
 // 📝 TODO: Experiment with this idea and see if it might be usefull
@@ -13,7 +14,9 @@ export default Service.extend({
   // modelKey: '',
   // queryType: '',
 
-  _findByIdTask: task(function *(modelKey, id) {
+  apiTask: taskGroup(),
+
+  findByIdTask: task(function *(modelKey, id) {
     try {
       const results = yield this
         .get('store')
@@ -25,9 +28,9 @@ export default Service.extend({
     } catch ({ errors }) {
       this._alertOnErrors(errors);
     }
-  }),
+  }).group('apiTask'),
 
-  _findAllTask: task(function *(modelKey) {
+  findAllTask: task(function *(modelKey) {
     try {
       const results = yield this.get('store').findAll(modelKey);
 
@@ -36,9 +39,9 @@ export default Service.extend({
     }
 
     return results;
-  }),
+  }).group('apiTask'),
 
-  queryTask: task(function *(modelKey, opts = {}) => {
+  queryTask: task(function *(modelKey, opts = {}) {
     try {
       const results = yield this.get('store').query(modelKey, opts);
       return results;
@@ -46,27 +49,46 @@ export default Service.extend({
     } catch ({ errors }) {
       this._alertOnErrors(errors);
     }
-  });
+  }).group('apiTask'),
+
+  findTopVideosTask: task(function *() {
+    const videoAdapter = getOwner(this).lookup('adapter:twitch-video');
+
+    try {
+      debugger;
+      Ember.run.next(() => {
+        videoAdapter.set('isFindingTopVideos', true);
+      });
+      
+      const results = yield this.get('store').findAll('twitch-video');
+
+      return results;
+
+    } catch ({ errors }) {
+      this._alertOnErrors(errors);
+    }
+  }).group('apiTask'),
 
 
-  // TODO: Organize a parent task and just inspect that?
-  isLoadingData: or(
-    '_findByIdTask.isRunning',
-    '_findAllTask.isRunning',
-    '_queryTask.isRunning'
-  ),
+  isLoadingData: bool('apiTask.isRunning'),
 
-  findById(modelKey, id) {
-    return this.get('_findByIdTask').perform(modelKey, id);
-  },
+  // findById(modelKey, id) {
+  //   return this.get('tasks.findById').perform(modelKey, id);
+  // },
+  //
+  // findAll(modelKey) {
+  //   return this.get('tasks.findAll').perform(modelKey);
+  // },
+  //
+  // queryFor(modelKey, opts) {
+  //   return this.get('tasks.query').perform(modelKey, opts);
+  // },
+  //
+  // findTopVideos() {
+  //   debugger;
+  //   return this.get('tasks.findTopVideos').perform();
+  // },
 
-  findAll(modelKey) {
-    return this.get('_findAllTask').perform(modelKey);
-  },
-
-  query(modelKey, opts) {
-    return this.get('_queryTask').perform(modelKey, opts);
-  }
 
   _alertOnErrors(errors) {
     debugger;

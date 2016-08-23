@@ -24,7 +24,8 @@
         </p>
       {{/x-form}}
 
-      {{#x-form class="p-videos__search-option" onSubmit=(route-action 'findAllForChannel' model.channelNameToSearch)}}
+      {{!-- 📝 TODO: Enable after implementing Channels API --}}
+      {{!-- {{#x-form class="p-videos__search-option" onSubmit=(route-action 'findAllForChannel' model.channelNameToSearch)}}
         <p class="c-form-field">
           <label class="c-text-input-label" for="find-by-video-id">Find all for Channel Name</label>
           <span class="c-input-button-combo u-fill-width">
@@ -39,7 +40,7 @@
             {{x-button class="c-input-button-combo__button" type="submit" title="Search" disabled=model.videosPage.isLoadingData}}
           </span>
         </p>
-      {{/x-form}}
+      {{/x-form}}--}}
 
       {{x-button
         class="p-videos__search-option"
@@ -48,12 +49,13 @@
         disabled=model.isLoadingData
       }}
 
-      {{x-button
+      {{!-- 📝 TODO: Enable after implementing Auth --}}
+      {{!-- {{x-button
         class="p-videos__search-option"
         click=(route-action 'findFromFollowedChannels')
         title="Videos From Your Followed Channels"
         disabled=model.isLoadingData
-      }}
+      }} --}}
 
     </div>
   </section>
