@@ -32,21 +32,23 @@ export default Service.extend({
 
   findAllTask: task(function *(modelKey) {
     try {
-      const results = yield this.get('store').findAll(modelKey);
+      const results = yield this.get('store').findAll(`twitch-${modelKey}`);
+
+      return results;
 
     } catch ({ errors }) {
       this._alertOnErrors(errors);
     }
-
-    return results;
   }).group('apiTask'),
 
   queryTask: task(function *(modelKey, opts = {}) {
     try {
-      const results = yield this.get('store').query(modelKey, opts);
+      const results = yield this.get('store').query(`twitch-${modelKey}`, opts);
+      debugger;
       return results;
 
     } catch ({ errors }) {
+      debugger;
       this._alertOnErrors(errors);
     }
   }).group('apiTask'),
@@ -59,7 +61,7 @@ export default Service.extend({
       Ember.run.next(() => {
         videoAdapter.set('isFindingTopVideos', true);
       });
-      
+
       const results = yield this.get('store').findAll('twitch-video');
 
       return results;

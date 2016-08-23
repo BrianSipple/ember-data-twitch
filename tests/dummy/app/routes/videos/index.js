@@ -32,8 +32,8 @@ export default Route.extend({
     findByPopularity() {
 
       return this
-        .get('TwitchAPIService.findTopVideosTask')
-        .perform()
+        .get('TwitchAPIService.queryTask')
+        .perform('video', { method: 'top' })
         .then(results => {
           debugger;
         });

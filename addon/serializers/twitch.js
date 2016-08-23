@@ -86,6 +86,28 @@ export default JSONAPISerializer.extend({
     };
   },
 
+  _hashSingleResponse(primaryModelClass, payload) {
+    return { data: this._makeDocumentDataHash(primaryModelClass, payload) };
+  },
+
+  // TODO: Implement properly
+  _hashArrayResponse(primaryModelClass, payload) {
+    debugger;
+    // const clientType = primaryModelClass.modelName;
+    const serverModelType = this.get('modelType');
+    const payloadData = payload[inflector.pluralize(serverModelType)];
+
+    assert('The root of results with multiple items must contain an array keyed on the pluralized model class name', isArray(payloadData));
+
+    const documentHash = { data: [], included: [] };
+
+    // set document `type`
+    documentHash.type = clientType;
+
+    // set document `data`
+    documentHash.data = payloadData.map(data => this._makeDocumentDataHash(primaryModelClass, data));
+  },
+
 
   /**
    * normalize a payload from the server into a JSON-API Document, specifying
@@ -94,7 +116,7 @@ export default JSONAPISerializer.extend({
    */
   normalizeFindRecordResponse(store, primaryModelClass, payload, id, requestType) {
     // ❓❓❓: Is there a good way to detect an invalid SINGULAR response at this point? Or are we certain to be okay if we get here?
-    const documentHash = { data: this._makeDocumentDataHash(primaryModelClass, payload) };
+    const documentHash = this._hashSingleResponse(primaryModelClass, payload);
 
     return this._super(store, primaryModelClass, documentHash, id, requestType);
   },
@@ -110,20 +132,14 @@ export default JSONAPISerializer.extend({
 
 
   normalizeFindAllResponse(store, primaryModelClass, payload, id, requestType) {
+    const documentHash = this._hashArrayResponse(primaryModelClass, payload);
+
+    return this._super(store, primaryModelClass, documentHash, id, requestType);
+  },
+
+  normalizeQueryResponse(store, primaryModelClass, payload, id, requestType) {
     debugger;
-    // const clientType = primaryModelClass.modelName;
-    const serverType = this.get('modelType');
-    const payloadData = payload[inflector.pluralize(serverType)];
-
-    assert('The root of results with multiple items must contain an array keyed on the pluralized model class name', isArray(payloadData));
-
-    const documentHash = { data: [], included: [] };
-
-    // set document `type`
-    documentHash.type = clientType;
-
-    // set document `data`
-    documentHash.data = payloadData.map(data => this._makeDocumentDataHash(primaryModelClass, data));
+    const documentHash = this._hashArrayResponse(primaryModelClass, payload);
 
     return this._super(store, primaryModelClass, documentHash, id, requestType);
   }

@@ -2,19 +2,13 @@ import TwitchAdapter from './twitch';
 import injectService from 'ember-service/inject';
 
 export default TwitchAdapter.extend({
-  isFindingTopVideos: false,
 
-  findAll(store, type) {
-    debugger;
-    return this._super(...arguments);
-  },
-
-
-  buildURL(modelName, id, snapshot, requestType, query) {
-    debugger;
+  /**
+   * Support searching for top videos using the "top" query method
+   */
+  buildURL(modelName, id, snapshot, requestType, query = {}) {
     const url = this._super(...arguments);
 
-    return this.get('isFindingTopVideos') ? `${url}/top` : url;
+    return query.method === 'top' ? `${url}/top` : url;
   }
-
 });
