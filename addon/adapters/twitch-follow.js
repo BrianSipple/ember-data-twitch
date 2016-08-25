@@ -4,31 +4,31 @@ import { assert } from 'ember-metal/utils';
 
 export default TwitchAdapter.extend({
 
-  urlForQuery(query/* ,modelName */) {
+  urlForQuery({ channelName, userId, method }/* ,modelName */) {
     debugger;
     const baseURL = `${this.host}/${this.namespace}`;
 
     // Find user follows related to channels
-    if (query.method === 'channel-users') {
-      const channelName = query.channelName;
-
+    if (method === 'channel-users') {
       assert('A `channelName` query param is required to query for a channel\'s following users', !!channelName);
 
       return `${baseURL}/channels/${channelName}/follows`;
     }
 
-    if (query.method === 'user-channels') {
-      const userId = query.userId;
-
+    if (method === 'user-channels') {
       assert('A `userId` query param is required to query for a user\'s followed channels', !!userId);
 
-      const baseChannelsFollowURL = `${baseURL}/users/${userId}/follows/channels`;
-
-      return query.channelName ? `${baseChannelsFollowURL}/${query.channelName}` : baseChannelsFollowURL;
+      return `${baseURL}/users/${userId}/follows/channels`;
     }
 
-    // Find user follows related to streams
-    if (query.method === 'streams') {
+    if (method === 'user-channel') {
+      assert('A `userId` query param is required to query for the status of a user\'s followed channel', !!userId);
+      assert('A `channelName` query param is required to query for the status of a user\'s followed channel', !!channelName);
+
+      return `${baseURL}/users/${userId}/follows/channels/${channelName}`;
+    }
+
+    if (method === 'streams') {
       return `${baseURL}/streams/followed`;
     }
 

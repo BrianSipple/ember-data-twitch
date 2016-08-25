@@ -10,5 +10,4 @@ export default Model.extend({
   user: belongsTo('twitch-user'),
   channel: belongsTo('twitch-channel'),
   stream: belongsTo('twitch-stream')
-
 });
