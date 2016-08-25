@@ -11,16 +11,19 @@ const { $: { parseJSON } } = Ember;
 export default JSONAPIAdapter.extend({
   host: 'https://api.twitch.tv',
   namespace: 'kraken',
-  apiKey: null,
+  pluralizePath: true,
 
-  defaultSerializer: 'twitch',
+  /**
+   * Determines a path for a given type
+   *
+   * By default, we'll aim to return camelized, plurailzed forms of the model name,
+   * as that's currently the Twitch API's most common pattern. Some resources differ,
+   * however, and these cases can be handled by local overrides.
+   */
+  pathForType: function(modelName) {
+    const baseName = modelName.replace('twitch-', '');
 
-  headers: {
-    'Accept': 'application/vnd.twitchtv.v3+json'
-  },
-
-  pathForType(modelName) {
-    return inflector.pluralize(modelName.replace('twitch-', ''));
+    return this.get('pluralizePath') ? camelize(inflector.pluralize(baseName)) : camelize(baseName);
   },
 
   dataForRequest() {
