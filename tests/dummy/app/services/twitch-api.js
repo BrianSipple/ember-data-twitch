@@ -53,7 +53,6 @@ export default Service.extend({
   isLoadingData: bool('apiTask.isRunning'),
 
   _alertOnErrors(error) {
-    debugger;
     this.get('flashMessages').danger(error, {
       extendedTimeout: 420
     });

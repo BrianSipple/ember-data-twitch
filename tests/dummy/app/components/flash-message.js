@@ -48,7 +48,6 @@ export default Component.extend({
     // Very shortly after a message is created, add the "active"
     // class to it, so that we can use CSS animations for
     // the entry transition
-    debugger;
     this._applyActiveClass = next(() => this.set('isActive', true));
   },
 
