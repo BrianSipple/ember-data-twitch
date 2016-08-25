@@ -1,7 +1,14 @@
-import Model from 'ember-data/model';
-// import attr from 'ember-data/attr';
-// import { belongsTo, hasMany } from 'ember-data/relationships';
+import DS from 'ember-data';
+
+const { Model, attr } = DS;
 
 export default Model.extend({
+  createdAt: attr('data'),
+  updatedAt: attr('data'),
+  notifications: attr('boolean'),
+
+  user: belongsTo('twitch-user'),
+  channel: belongsTo('twitch-channel'),
+  stream: belongsTo('twitch-stream')
 
 });
