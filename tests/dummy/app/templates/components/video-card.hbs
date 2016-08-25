@@ -1,0 +1,24 @@
+<header>
+  <h6 class="u-mb1">Channel: <a href={{channelLink}} target="_blank">{{channelName}}</a></h6>
+</header>
+
+<img class="c-video-card__image u-mb2" src={{previewSrc}} alt={{title}}>
+
+<footer class="c-video-card__info-footer u-relative u-fill-width o-content-box">
+  <h4 class="c-video-card__title">{{title}}</h4>
+
+  <p class="c-video-card__description u-mt0 u-mb2">{{truncate-text description 158}}</p>
+
+  {{!-- <p class="c-video-card__supporting-data">
+    <span class="u-truncate">Game:{{game}}</span>
+    <span class="u-truncate">Views: {{viewCount}}</span>
+  </p> --}}
+  <p class="u-truncate u-mt0 u-mb2">Game: {{game}}</p>
+  <p class="u-truncate u-mt0 u-mb2">Views: {{viewCount}}</p>
+
+  <a class="c-video-card__twitch-link o-link-reset c-button" href={{video.url}} target="_blank">
+    View on Twitch
+  </a>
+</footer>
+
+{{yield}}

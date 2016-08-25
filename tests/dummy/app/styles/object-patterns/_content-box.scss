@@ -1,4 +1,7 @@
 .o-content-box {
   box-sizing: border-box;
-  padding: $padding__content-box;
+  padding-top: $padding__content-box--vertical;
+  padding-right: $padding__content-box--horizontal;
+  padding-bottom: $padding__content-box--vertical;
+  padding-left: $padding__content-box--horizontal;
 }

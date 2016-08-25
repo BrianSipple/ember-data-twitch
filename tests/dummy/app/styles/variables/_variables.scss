@@ -1,17 +1,10 @@
+@import 'colors';
+
 /**
- * -----------------------------------------
- * COLORS
- * -----------------------------------------
+ * Application-wide base variables
+ *
+ * 📝 Possible TODO: Break out things that get too large (see: "colors" above)
  */
-$theme-color__primary-1--100: hsla(261, 53%, 76%, 1.00);
-$theme-color__primary-1--300: hsla(261, 43%, 55%, 1.00);
-$theme-color__primary-1--500: hsla(261, 43%, 45%, 1.00);
-$theme-color__primary-1--700: hsla(255, 27%, 20%, 1.00);
-$theme-color__primary-1--900: hsla(256, 22%, 10%, 1.00);
-
-$theme-color__nearWhite: hsla(0, 0%, 92%, 1.00);
-
-$color__box-shadow: hsla(0, 0%, 0%, 0.43);
 
 /**
  * -----------------------------------------
@@ -19,10 +12,17 @@ $color__box-shadow: hsla(0, 0%, 0%, 0.43);
  * -----------------------------------------
  */
 $duration__fade-toggle: 0.25s;
+$duration__shift-element: 0.2s;
+$duration__slide-element: 0.42s;
+
 
 $easing__ease-in-quad: cubic-bezier(0.550, 0.085, 0.680, 0.530);
-$easing__ease-out-cubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+$easing__ease-in-sine: cubic-bezier(0.550, 0.085, 0.680, 0.530);
 
+$easing__ease-out-sine: cubic-bezier(0.390, 0.575, 0.565, 1.000);
+$easing__ease-out-quad: cubic-bezier(0.250, 0.460, 0.450, 0.940);
+$easing__ease-out-cubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+$easing__ease-out-cubic--bounce-25: cubic-bezier(0.27, 0.78, 0.75, 2.15);
 
 
 /**
@@ -30,12 +30,25 @@ $easing__ease-out-cubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
  * DIMENSIONS
  * -----------------------------------------
  */
-
 $height__navbar: 4rem;
 $width__sidenav: 18rem;
+$width__flash-message: 23rem;
+
+$dimension__tap-target--sm: 2rem;
+$dimension__tap-target--md: 3rem;
+$dimension__tap-target--lg: 5rem;
 
 /*
  * 180:130 padding ratio to align content aspect ratio with human FOV
  */
-$padding__content-box: 0.75em 1.05em;
-$padding__content-box--lg: 1.5em 2.10em;
+$padding__content-box--horizontal: 1.05em;
+$padding__content-box--horizontal-lg: 2.10em;
+$padding__content-box--vertical: 0.75em;
+$padding__content-box--vertical-lg: 1.5em;
+
+/**
+ * -----------------------------------------
+ * OTHER GARNISHES
+ * -----------------------------------------
+ */
+ $box-shadow__card: 2px 4px 14px 1px hsla(0, 0%, 40%, 1);

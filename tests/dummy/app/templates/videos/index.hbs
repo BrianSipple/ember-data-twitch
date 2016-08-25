@@ -1,0 +1,73 @@
+<section class="p-videos u-fill u-relative">
+  <header>
+    <h2>Videos</h2>
+  </header>
+
+  <section class="p-videos__search-options-section">
+    <h3 class="u-align-center">Ways to Find Videos</h3>
+
+    <div class="p-videos__search-options">
+
+      {{#x-form class="p-videos__search-option" onSubmit=(route-action 'findById' model.videoIdToSearch)}}
+        <p class="c-form-field">
+          <label class="c-text-input-label" for="find-by-video-id">Find one by Video ID (test: v83233139)</label>
+          <span class="c-input-button-combo u-fill-width">
+            {{input
+              id="find-by-video-id"
+              class="c-text-input c-input-button-combo__input"
+              placeholder="For example, &quot;v83233139&quot;"
+              value=model.videoIdToSearch
+              type="search"
+            }}
+            {{x-button class="c-input-button-combo__button" type="submit" title="Search" disabled=model.videosPage.isLoadingData}}
+          </span>
+        </p>
+      {{/x-form}}
+
+      {{!-- 📝 TODO: Enable after implementing Channels API --}}
+      {{!-- {{#x-form class="p-videos__search-option" onSubmit=(route-action 'findAllForChannel' model.channelNameToSearch)}}
+        <p class="c-form-field">
+          <label class="c-text-input-label" for="find-by-video-id">Find all for Channel Name</label>
+          <span class="c-input-button-combo u-fill-width">
+            {{input
+              id="find-by-channel-id"
+              class="c-text-input c-input-button-combo__input"
+              placeholder="Channel Name (for example 'twitch')"
+              value=model.channelNameToSearch
+              type="search"
+              aria-label="Search for a video by channel name"
+            }}
+            {{x-button class="c-input-button-combo__button" type="submit" title="Search" disabled=model.videosPage.isLoadingData}}
+          </span>
+        </p>
+      {{/x-form}}--}}
+
+      {{x-button
+        class="p-videos__search-option"
+        click=(route-action 'findByPopularity')
+        title="Find Most Popular Videos"
+        disabled=model.isLoadingData
+      }}
+
+      {{!-- 📝 TODO: Enable after implementing Auth --}}
+      {{!-- {{x-button
+        class="p-videos__search-option"
+        click=(route-action 'findFromFollowedChannels')
+        title="Videos From Your Followed Channels"
+        disabled=model.isLoadingData
+      }} --}}
+
+    </div>
+  </section>
+
+  <section class="p-videos__search-results-section">
+
+    {{#each model.searchResults as |resultVideo|}}
+      {{video-card class="p-videos__search-results-card" video=resultVideo}}
+    {{/each}}
+
+  </section>
+
+  {{outlet}}
+
+</section>

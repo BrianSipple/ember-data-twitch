@@ -1,0 +1,50 @@
+.c-button {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1em;
+  padding-top: $padding__content-box--vertical;
+  padding-bottom: $padding__content-box--vertical;
+  padding-right: $padding__content-box--horizontal;
+  padding-left: $padding__content-box--horizontal;
+  border-radius: 0.125em;
+  color: $theme-color__nearWhite;
+  border: 0;
+  cursor: pointer;
+  background-color: $theme-color__primary-1--500;
+  transition-property: background-color;
+  transition-duration: 0.25s;
+  transition-timing-function: $easing__ease-out-cubic;
+
+  &:hover:not(:disabled),
+  &:focus:not(:disabled) {
+    background-color: $theme-color__primary-1--300;
+    transition-timing-function: $easing__ease-in-quad;
+  }
+
+  // mask for "disabled" state
+  &::after {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background-color: hsla(0, 0%, 90%, 1.0);
+
+    transition-property: opacity;
+    transition-timing-function: $easing__ease-out-cubic;
+    transition-duration: $duration__fade-toggle;
+  }
+
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &:disabled::after {
+    opacity: 0.5;
+  }
+}

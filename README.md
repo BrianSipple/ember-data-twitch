@@ -8,7 +8,10 @@ This addon provides Ember-Data abstractions for the [Twitch API v3](https://gith
 
 ## Usage
 
-TBA
+The addon exposes a number of models, adapters, and serializers you can use to access data from the [Twitch V3 API][twitch-api]. If a particular API is not supported, please review our issue list and create a new one if it has not yet been requested. Contributions especially welcome!
+
+### Vidoes
+[Videos Docs][docs-videos]
 
 ## Contributing
 
@@ -44,3 +47,6 @@ Once you have a client key, create a `.env` file at the root of your project and
 * `ember build`
 
 For more information on using ember-cli, visit [http://ember-cli.com/](http://ember-cli.com/).
+
+[twitch-api]: https://github.com/justintv/Twitch-API
+[docs-videos]: https://github.com/justintv/Twitch-API/blob/master/v3_resources/videos.md

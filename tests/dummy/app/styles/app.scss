@@ -1,8 +1,9 @@
 @import "variables/variables";
 
-@import "components/components";
 @import "object-patterns/object-patterns";
+@import "pages/pages";
 @import "typography/typography";
+@import "ui-components/ui-components";
 @import "utilities/utilities";
 
 html {
@@ -25,7 +26,7 @@ ul {
 }
 
 
-.application {
+.p-application {
   position: relative;
   margin: 0;
   padding: 0;
@@ -36,31 +37,32 @@ ul {
   z-index: 1;
   display: flex;
   flex-wrap: nowrap;
+}
 
-  .application__sidenav {
-    flex: 0 1 $width__sidenav;
-    box-shadow: 2px 0 3px 1px $color__box-shadow;
-    background-image: linear-gradient(
-      to bottom,
-      $theme-color__primary-1--900 0%,
-      $theme-color__primary-1--700 66%,
-      $theme-color__primary-1--500
-    );
-    z-index: 1;
-  }
+.p-application__sidenav {
+  flex: 0 1 $width__sidenav;
+  box-shadow: 2px 0 3px 1px $color__box-shadow;
+  background-image: linear-gradient(
+    to bottom,
+    $theme-color__primary-1--900 0%,
+    $theme-color__primary-1--700 66%,
+    $theme-color__primary-1--500
+  );
+  z-index: 1;
+}
 
-  .application__navbar {
-    height: $height__navbar;
-  }
+.p-application__navbar {
+  height: $height__navbar;
+}
 
-  .application__main-content {
-    flex: 1;
-    padding: $padding__content-box--lg;
-    padding-top: $height__navbar;
-    overflow: hidden;
-    overflow-y: auto;
-  }
-
-
-
+.p-application__main-content {
+  flex: 1;
+  padding-top: $padding__content-box--vertical-lg;
+  padding-bottom: $padding__content-box--vertical-lg;
+  padding-left: $padding__content-box--horizontal-lg;
+  padding-right: $padding__content-box--horizontal-lg;
+  padding-top: $height__navbar;
+  overflow: hidden;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
