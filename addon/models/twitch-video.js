@@ -1,5 +1,6 @@
-import Model from 'ember-data/model';
-import attr from 'ember-data/attr';
+import DS from 'ember-data';
+
+const { Model, attr, belongsTo } = DS
 
 export default Model.extend({
   title: attr('string'),
@@ -15,11 +16,9 @@ export default Model.extend({
   views: attr('number'),
   broadcastType: attr('string'),
 
-  // _links: attr('string'), // TODO: Deserialize into "links"?
-
   /**
    * This isn't a channel Id, but rather an object containing
    * a "name" and "display_name"
    */
-  channel: attr()
+  channel: belongsTo('twitch-channel')
 });

@@ -20,23 +20,17 @@ export default Route.extend({
       return this
         .get('TwitchAPIService.findByIdTask')
         .perform('video', id)
-        .then(results => {
-          this.set('currentModel.videoIdToSearch', '');
-          this._fillSearchResults(results);
-        })
-        .catch(({ errors }) => {
-          this.get('currentModel.channelNameToSearch', '');
-        });
+        .then(results => this._fillSearchResults(results));
+        // TODO: Handle flash message here?
+        // .catch(({ errors }) => {
+        // });
     },
 
     findByPopularity() {
-
       return this
         .get('TwitchAPIService.queryTask')
         .perform('video', { method: 'top' })
-        .then(results => {
-          debugger;
-        });
+        .then(results => this._fillSearchResults(results));
     },
 
     // 📝 TODO: Enable after implementing Channels API
@@ -64,11 +58,12 @@ export default Route.extend({
 
   _fillSearchResults(searchResponse) {
     debugger;
-    const searchResults = this.get('currentModel.searchResults');
+    const currentSearchResults = this.get('currentModel.searchResults');
     const method = isEmberArray(searchResponse) ? 'pushObjects' : 'pushObject';
 
-    searchResults.clear();
-    searchResults[method](searchResponse);
+    this.set('currentModel.videoIdToSearch', '');
+    currentSearchResults.clear();
+    currentSearchResults[method](searchResponse);
   }
 
 });

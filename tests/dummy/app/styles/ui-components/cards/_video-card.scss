@@ -1,8 +1,12 @@
 $width__preview-image: 320px;
 $height__preview-image: 240px;
 
-$width__card: $width__preview-image;
-//$height__card: $width__card * (4 / 3);
+$width__video-card: calc(
+  #{$width__preview-image} + (
+    #{$padding__content-box--horizontal} * 2
+  )
+);
+//$height__card: $width__video-card * (4 / 3);
 
 //$height__info-footer: $height__card - $height__preview-image;
 
@@ -11,9 +15,9 @@ $width__card: $width__preview-image;
 //
 
 .c-video-card {
-  position: relative;
   overflow: hidden;
-  width: $width__card;
+  //width: $width__video-card;
+  max-width: $width__video-card;
   //height: $height__card;
   height: auto;
 }

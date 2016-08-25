@@ -57,7 +57,10 @@ ul {
 
 .p-application__main-content {
   flex: 1;
-  padding: $padding__content-box--lg;
+  padding-top: $padding__content-box--vertical-lg;
+  padding-bottom: $padding__content-box--vertical-lg;
+  padding-left: $padding__content-box--horizontal-lg;
+  padding-right: $padding__content-box--horizontal-lg;
   padding-top: $height__navbar;
   overflow: hidden;
   overflow-y: auto;

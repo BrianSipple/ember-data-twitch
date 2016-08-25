@@ -6,7 +6,7 @@ import JSONAPISerializer from 'ember-data/serializers/json-api';
 import Inflector from 'ember-inflector';
 
 const { inflector } = Inflector;
-const { camelize, singularize, decamelize } = EmberString;
+const { camelize, decamelize, underscore } = EmberString;
 
 
 /**
@@ -23,53 +23,101 @@ export default JSONAPISerializer.extend({
    *
    * usage: override this and define in each specific model's serializer
    */
-  modelType: '',
+  serverRecordKey(modelName) {
+    return inflector.pluralize(modelName.replace('twitch-', ''));
+  },
 
   /**
-   * Converts an attribute name in the model to a key in JSON.
+   * The "type" value to use for our client-side data store.
+   */
+  clientTypeName(typeClass) {
+    return typeClass.modelName;
+  },
+
+  primaryKey: '_id',
+
+  relationshipPrimaryKeys: {
+    'twitch-channel': 'name'
+  },
+
+  /**
+   * Converts an attribute name in the model to a JSON payload key.
    *
-   * The API expect compound words in snake_case, so we'll "decamelize"
+   * The API expects compound words in snake_case, so we'll "decamelize"
    * our model names
    */
   keyForAttribute(attr /* , method */) {
-    return decamelize(attr);
+    return underscore(attr);
   },
 
+  keyForRelationship(key, relationship, method) {
+    return key.replace('twitch-', '');
+  },
 
-  _extractAttributes(modelClass, resourceHash /* , serializer */) {
+  modelNameFromPayloadKey(key) {
+    const baseName = singularize(key);
+
+    return `twitch-${key}`;
+  },
+
+  keyForLink(/* key, kind */) {
+    return '_links';
+  },
+
+  normalize(typeClass, recordHash, serverModelType = this.serverModelType(typeClass.modelName)) {
+    const keyForLink = this.keyForLink();
+    const selfLink = recordHash[keyForLink] ? recordHash[keyForLink].self : {};
+
+    const type = this.clientTypeName(typeClass);
+    const id = recordHash[this.get('primaryKey')];
+    const links = { self: selfLink };
+    const attributes = this.__extractAttributes(typeClass, recordHash);
+    const relationships = this.__extractRelationships(typeClass, recordHash);
+
+    return { type, id, attributes, relationships, links };
+  },
+
+  _buildRelationships() {
+
+  },
+
+  __extractAttributes(modelClass, resourceHash /* , serializer */) {
     const attributes = {};
 
+    let payloadKey;
     modelClass.eachAttribute((attributeName) => {
-      const normalizedAttributeKey = this.keyForAttribute(attributeName);
+      payloadKey = this.keyForAttribute(attributeName);
 
-      // attributes[serializer.keyForAttribute(attributeName)] = resourceHash[normalizedKey];
-      attributes[normalizedAttributeKey] = resourceHash[normalizedAttributeKey];
+      attributes[attributeName] = resourceHash[payloadKey];
     });
 
     return attributes;
   },
 
-  _extractRelationships(modelClass, resourceHash) {
+  /**
+   * TODO: How to handle links
+   */
+  __extractRelationships(modelClass, resourceHash) {
     const relationships = {};
 
     modelClass.eachRelationship((relationshipName, { kind, type, options }) => {
-      let data;
+      const keyInResourceHash = this.keyForRelationship(relationshipName);
+      const relationshipPrimaryKey = this.relationshipPrimaryKeys[relationshipName] || this.primaryKey;
+      const modelName = this.modelNameFromPayloadKey(keyInResourceHash);
 
-      if (options.async) {
-        const suffix = kind === 'hasMany' ? 'Ids' : 'Id';
-        const key = `${singularize(relationshipName)}${suffix}`;
-        const normalizedKey = this.keyFror(key);
-
-        data = this._buildRelationships(type, resourceHash[normalizedKey], (elem) => elem);
-
-      } else {
-        const normalizedRelName = this.keyForRelationship(relationshipName);
-
-        data = this._buildRelationships(type, resourceHash[normalizedRelName], (elem) => elem.id);
-      }
+      // TODO: Explore possibly more advanced logic (https://github.com/alphasights/ember-graphql-adapter/blob/ec6d2ae53f7a82fa3039e918a8a7d75e7931fdcb/addon/serializer.js#L164)
+      // let data;
+      // if (options.async) {
+      //   // const key = `${singularize(relationshipName)}${suffix}`;
+      //   data = this._buildRelationships(type, resourceHash[keyInResourceHash], (elem) => elem);
+      //
+      // } else {
+      //   data = this._buildRelationships(type, resourceHash[keyInResourceHash], (elem) => elem.id);
+      // }
+      const data = { type: this.clientTypeName(modelName), id: resourceHash[keyInResourceHash].relationshipPrimaryKey };
 
       if (isPresent(data)) {
-        relationships[this.keyForRelationship(relationshipName)] = { data };
+        relationships[relationshipName] = { data };
       }
     });
 
@@ -77,50 +125,25 @@ export default JSONAPISerializer.extend({
   },
 
 
-  _makeDocumentDataHash(primaryModelClass, payload) {
-    return {
-      type: inflector.pluralize(primaryModelClass.modelName),  // matches the client-side type name of the model
-      id: payload._id,
-      attributes: this._extractAttributes(primaryModelClass, payload /* this */) || {},
-      relationships: this._extractRelationships(primaryModelClass, payload) || {}
-    };
-  },
-
-  _hashSingleResponse(primaryModelClass, payload) {
-    return { data: this._makeDocumentDataHash(primaryModelClass, payload) };
-  },
-
-  // TODO: Implement properly
-  _hashArrayResponse(primaryModelClass, payload) {
-    debugger;
-    // const clientType = primaryModelClass.modelName;
-    const serverModelType = this.get('modelType');
-    const payloadData = payload[inflector.pluralize(serverModelType)];
-
-    assert('The root of results with multiple items must contain an array keyed on the pluralized model class name', isArray(payloadData));
-
-    const documentHash = { data: [], included: [] };
-
-    // set document `type`
-    documentHash.type = clientType;
-
-    // set document `data`
-    documentHash.data = payloadData.map(data => this._makeDocumentDataHash(primaryModelClass, data));
-  },
-
-
   /**
-   * normalize a payload from the server into a JSON-API Document, specifying
-   * 'data' as a root key name for the returned hash
-   * @see: http://jsonapi.org/format/#document-resource-objects
+   * TODO: How to handle "included"
    */
-  normalizeFindRecordResponse(store, primaryModelClass, payload, id, requestType) {
-    // ❓❓❓: Is there a good way to detect an invalid SINGULAR response at this point? Or are we certain to be okay if we get here?
-    const documentHash = this._hashSingleResponse(primaryModelClass, payload);
+  normalizeResponse(store, primaryModelClass, payload, id, requestType) {
+    // Get the key that the server is using to represent our model
+    const recordKey = this.serverRecordKey(primaryModelClass.modelName);
 
-    return this._super(store, primaryModelClass, documentHash, id, requestType);
+    // the resource will either be a list at the `recordKey` property (collection responses),
+    //  or the root of the payload (single responses)
+    const recordData = payload[recordKey] || payload;
+
+    if (Array.isArray(recordData)) {
+      return {
+        data: recordData.map(record => this.normalize(primaryModelClass, record, recordKey))
+      };
+    }
+
+    return { data: this.normalize(primaryModelClass, recordData, recordKey) };
   },
-
 
   /**
    * handle `findBelongsTo` responses identically to the way we handle `findRecord` responses
@@ -128,13 +151,6 @@ export default JSONAPISerializer.extend({
   normalizeFindBelongsToResponse() {
     debugger;
     return this.normalizeFindRecordResponse(...arguments);
-  },
-
-
-  normalizeFindAllResponse(store, primaryModelClass, payload, id, requestType) {
-    const documentHash = this._hashArrayResponse(primaryModelClass, payload);
-
-    return this._super(store, primaryModelClass, documentHash, id, requestType);
   },
 
   normalizeQueryResponse(store, primaryModelClass, payload, id, requestType) {
