@@ -1,4 +1,16 @@
 import DS from 'ember-data';
 
-export default DS.JSONAPIAdapter.extend({
+const { JSONAPIAdapter } = DS;
+
+
+export default JSONAPIAdapter.extend({
+
+  urlForQuery(query, modelName) {
+    const url = this._super(...arguments);
+
+    return query.method === 'follows' ?
+    if (query.method === 'follows') {
+      return ``
+    }
+  }
 });
