@@ -6,6 +6,7 @@ $width__video-card: calc(
     #{$padding__content-box--horizontal} * 2
   )
 );
+
 //$height__card: $width__video-card * (4 / 3);
 
 //$height__info-footer: $height__card - $height__preview-image;
@@ -33,16 +34,16 @@ $width__video-card: calc(
   display: flex;
   flex-direction: column;
 
-  > * {
-    margin-top: 0;
-    margin-right: 0;
-    margin-left: 0;
-    margin-bottom: 1em;
-  }
-
-  > :last-child {
-    margin-bottom: 0;
-  }
+  //> * {
+  //  margin-top: 0;
+  //  margin-right: 0;
+  //  margin-left: 0;
+  //  margin-bottom: 1em;
+  //}
+  //
+  //> :last-child {
+  //  margin-bottom: 0;
+  //}
 }
 
 .c-video-card__title {
@@ -51,7 +52,9 @@ $width__video-card: calc(
 }
 
 .c-video-card__description {
-  height: 2rem;
+  height: 3rem;
+  line-height: 1;
+  overflow: hidden;
   color: $grayscale__dark-on-light--secondary-text;
 }
 
