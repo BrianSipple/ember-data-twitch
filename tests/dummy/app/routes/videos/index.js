@@ -31,7 +31,7 @@ export default Route.extend({
         .get('TwitchAPIService.queryTask')
         .perform('video', { method: 'top' })
         .then(results => this._fillSearchResults(results));
-    },
+    }
 
     // 📝 TODO: Enable after implementing Channels API
     // findAllForChannel(channelName) {
@@ -57,7 +57,6 @@ export default Route.extend({
 
 
   _fillSearchResults(searchResponse) {
-    debugger;
     const currentSearchResults = this.get('currentModel.searchResults');
     const method = isEmberArray(searchResponse) ? 'pushObjects' : 'pushObject';
 

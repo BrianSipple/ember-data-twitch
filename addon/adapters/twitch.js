@@ -49,7 +49,6 @@ export default JSONAPIAdapter.extend({
   },
 
   handleResponse(status, headers, payload) {
-    debugger;
     if (status === 404 && 'error' in payload) {
       const { message: errorMessage } = payload;
 
