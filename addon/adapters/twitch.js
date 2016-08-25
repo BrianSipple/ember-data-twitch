@@ -1,10 +1,10 @@
 import Ember from 'ember';
-import JSONAPIAdapter from 'ember-data/adapters/json-api';
 import Inflector from 'ember-inflector';
 import DS from 'ember-data';
+import { camelize } from 'ember-string';
 
 const { inflector } = Inflector;
-const { InvalidError } = DS;
+const { InvalidError, JSONAPIAdapter } = DS;
 const { $: { parseJSON } } = Ember;
 
 

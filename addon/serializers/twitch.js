@@ -1,10 +1,10 @@
+import DS from 'ember-data';
 import { isPresent } from 'ember-utils';
-import EmberString from 'ember-string';
-import JSONAPISerializer from 'ember-data/serializers/json-api';
+import { underscore } from 'ember-string';
 import Inflector from 'ember-inflector';
 
+const { JSONAPISerializer } = DS;
 const { inflector } = Inflector;
-const { underscore } = EmberString;
 
 
 /**
