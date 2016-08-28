@@ -21,7 +21,7 @@ Router.map(function() {
   this.route('ingests');
   this.route('searches');
   this.route('games');
-  this.route('follows');
+  this.route('follows', function() {});
   this.route('chats');
   this.route('channels');
   this.route('blocks');

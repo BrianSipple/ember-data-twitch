@@ -1,0 +1,69 @@
+<section class="p-follows u-fill u-relative">
+  <header>
+    <h2>Follows API</h2>
+  </header>
+
+  <section>
+    <h3 class="u-align-center">Ways to Query Follows</h3>
+
+    <div class="p-follows__search-options">
+
+      {{!-- List of followed channels for a user --}}
+      {{#x-form class="p-follows__search-option u-ml2 u-mr2" onSubmit=(route-action 'findUserFollowsForChannel' model.channelNameToSearch)}}
+        <p class="c-form-field">
+          <label class="c-text-input-label" for="find-by-video-id">Find one by Video ID (test: v83233139)</label>
+          <span class="c-input-button-combo u-fill-width">
+            {{input
+              id="find-by-video-id"
+              class="c-text-input c-input-button-combo__input"
+              placeholder="For example, &quot;v83233139&quot;"
+              value=model.channelNameToSearch
+              type="search"
+            }}
+            {{x-button class="c-input-button-combo__button" type="submit" title="Search" disabled=model.videosPage.isLoadingData}}
+          </span>
+        </p>
+      {{/x-form}}
+
+      {{!-- Status of a follow relationship between a user and target channel --}}
+      {{#x-form class="p-follows__search-option" onSubmit=(route-action 'findById' model.videoIdToSearch)}}
+        <p class="c-form-field">
+          <label class="c-text-input-label" for="find-by-video-id">Find one by Video ID (test: v83233139)</label>
+          <span class="c-input-button-combo u-fill-width">
+            {{input
+              id="find-by-video-id"
+              class="c-text-input c-input-button-combo__input"
+              placeholder="For example, &quot;v83233139&quot;"
+              value=model.videoIdToSearch
+              type="search"
+            }}
+            {{x-button class="c-input-button-combo__button" type="submit" title="Search" disabled=model.videosPage.isLoadingData}}
+          </span>
+        </p>
+      {{/x-form}}
+
+
+
+
+      {{!-- List of followed streams for a user --}}
+      {{x-button
+        class="p-follows__search-option"
+        click=(route-action 'findByPopularity')
+        title="Find Most Popular Videos"
+        disabled=model.isLoadingData
+      }}
+
+    </div>
+  </section>
+
+  <section class="p-follows__search-results-section">
+
+    {{#each model.searchResults as |resultVideo|}}
+      {{video-card class="p-follows__search-results-card" video=resultVideo}}
+    {{/each}}
+
+  </section>
+
+  {{outlet}}
+
+</section>
