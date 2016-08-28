@@ -8,7 +8,7 @@
 
     <div class="p-videos__search-options">
 
-      {{#x-form class="p-videos__search-option" onSubmit=(route-action 'findById' model.videoIdToSearch)}}
+      {{#x-form class="p-videos__search-option u-mt2" onSubmit=(route-action 'findById' model.videoIdToSearch)}}
         <p class="c-form-field">
           <label class="c-text-input-label" for="find-by-video-id">Find one by Video ID (test: v83233139)</label>
           <span class="c-input-button-combo u-fill-width">
@@ -41,13 +41,15 @@
           </span>
         </p>
       {{/x-form}}--}}
+      {{#x-form class="p-videos__search-option u-mt2" onSubmit=(route-action 'findByPopularity')}}
+        {{x-button
+          class="u-fill-width p-videos__search-option--button"
+          type="submit"
+          title="Find Most Popular Videos"
+          disabled=model.isLoadingData
+        }}
+      {{/x-form}}
 
-      {{x-button
-        class="p-videos__search-option"
-        click=(route-action 'findByPopularity')
-        title="Find Most Popular Videos"
-        disabled=model.isLoadingData
-      }}
 
       {{!-- 📝 TODO: Enable after implementing Auth --}}
       {{!-- {{x-button

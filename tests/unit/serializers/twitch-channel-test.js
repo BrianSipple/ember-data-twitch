@@ -1,16 +1,8 @@
 import { moduleForModel, test } from 'ember-qunit';
-import registerAddonItems from '../../helpers/register-addon-items';
 
-
-moduleForModel('twitch-video', 'Unit | Serializer | twitch video', {
+moduleForModel('twitch-channel', 'Unit | Serializer | twitch channel', {
   // Specify the other units that are required for this test.
-  needs: [
-    'serializer:twitch-video',
-    'model:twitch-channel'
-  ],
-  beforeEach() {
-    registerAddonItems(this);
-  }
+  needs: ['serializer:twitch-channel']
 });
 
 // Replace this with your real tests.

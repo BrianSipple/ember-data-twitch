@@ -34,9 +34,9 @@ export default JSONAPISerializer.extend({
 
   primaryKey: '_id',
 
-  relationshipPrimaryKeys: {
-    'twitch-channel': 'name'
-  },
+  // relationshipPrimaryKeys: {
+  //   'twitch-channel': 'name'
+  // },
 
   /**
    * Converts an attribute name in the model to a JSON payload key.
@@ -48,8 +48,15 @@ export default JSONAPISerializer.extend({
     return underscore(attr);
   },
 
+  /**
+   * model property key of relationship => JSON payload key
+   * @param key {string} the model key for a given relationship
+   * @param relationship {string} the type of relationship (e.g: "belongsTo" or "hasMany")
+   */
   keyForRelationship(key/* , relationship, method */) {
-    return key.replace('twitch-', '');
+    // The most common pattern seems to have the payload key be the actual name
+    // of the related model, so by default, we'll just return the key
+    return key;
   },
 
   modelNameFromPayloadKey(key) {
@@ -68,7 +75,7 @@ export default JSONAPISerializer.extend({
     const id = recordHash[this.get('primaryKey')];
     const links = { self: selfLink };
     const attributes = this.__extractAttributes(typeClass, recordHash);
-    const relationships = this.__extractRelationships(typeClass, recordHash);
+    const relationships = this.__extractRelationships(typeClass, recordHash, keyForLink);
 
     return { type, id, attributes, relationships, links };
   },
@@ -93,28 +100,34 @@ export default JSONAPISerializer.extend({
   /**
    * TODO: How to handle links
    */
-  __extractRelationships(modelClass, resourceHash) {
+  __extractRelationships(modelClass, resourceHash, keyForLink) {
     const relationships = {};
+    const resourceLinks = resourceHash[keyForLink] || {};
 
-    modelClass.eachRelationship((relationshipName/* , { kind, type, options } */) => {
-      const keyInResourceHash = this.keyForRelationship(relationshipName);
-      // const relationshipPrimaryKey = this.relationshipPrimaryKeys[relationshipName] || this.primaryKey;
-      const modelName = this.modelNameFromPayloadKey(keyInResourceHash);
+    modelClass.eachRelationship((relationshipName, { /* kind, */ type /* , options */ }) => {
+      const dataKeyInResourceHash = this.keyForRelationship(relationshipName);
+      const relationshipData = resourceHash[dataKeyInResourceHash];
+      const relationshipLink = { self: resourceLinks[dataKeyInResourceHash] };
 
-      // TODO: Explore possibly more advanced logic (https://github.com/alphasights/ember-graphql-adapter/blob/ec6d2ae53f7a82fa3039e918a8a7d75e7931fdcb/addon/serializer.js#L164)
+      if (isPresent(relationshipLink) || isPresent(relationshipData)) {
+        const relationshipSerializer = this.store.serializerFor(type);
+        const relationshipPrimaryKey = relationshipSerializer.primaryKey;
+
+        relationships[type] = {
+          links: relationshipLink,
+          data: { type, id: relationshipData[relationshipPrimaryKey] }
+        };
+      }
+
+      // TODO: possibly explore more advanced logic (https://github.com/alphasights/ember-graphql-adapter/blob/ec6d2ae53f7a82fa3039e918a8a7d75e7931fdcb/addon/serializer.js#L164)
       // let data;
       // if (options.async) {
       //   // const key = `${singularize(relationshipName)}${suffix}`;
-      //   data = this._buildRelationships(type, resourceHash[keyInResourceHash], (elem) => elem);
+      //   data = this._buildRelationships(type, resourceHash[dataKeyInResourceHash], (elem) => elem);
       //
       // } else {
-      //   data = this._buildRelationships(type, resourceHash[keyInResourceHash], (elem) => elem.id);
+      //   data = this._buildRelationships(type, resourceHash[dataKeyInResourceHash], (elem) => elem.id);
       // }
-      const data = { type: this.clientTypeName(modelName), id: resourceHash[keyInResourceHash].relationshipPrimaryKey };
-
-      if (isPresent(data)) {
-        relationships[relationshipName] = { data };
-      }
     });
 
     return relationships;

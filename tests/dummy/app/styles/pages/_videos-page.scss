@@ -9,21 +9,19 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-
+    align-items: center;
   }
 
   .p-videos__search-option {
-    //flex-basis: 47.5%;
-    //flex-basis: 26rem;
     width: 26rem;
     flex-grow: 0;
     flex-shrink: 0;
   }
 
+  .p-videos__search-option--button {
+    line-height: 2.5rem;
+  }
 
-  //.p-videos__search-option:not(:last-child) {
-  //  margin-bottom: 1.5rem;
-  //}
 
   .p-videos__search-results-card {
     margin: 1em auto;

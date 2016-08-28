@@ -20,7 +20,7 @@ export default Route.extend({
       return this
         .get('TwitchAPIService.findByIdTask')
         .perform('video', id)
-        .then(results => this._fillSearchResults(results));
+        .then(result => this._fillSearchResults(result));
         // TODO: Handle flash message here?
         // .catch(({ errors }) => {
         // });
@@ -57,6 +57,7 @@ export default Route.extend({
 
 
   _fillSearchResults(searchResponse) {
+    debugger;
     const currentSearchResults = this.get('currentModel.searchResults');
     const method = isEmberArray(searchResponse) ? 'pushObjects' : 'pushObject';
 

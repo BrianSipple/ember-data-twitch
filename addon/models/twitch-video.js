@@ -7,7 +7,7 @@ export default Model.extend({
   description: attr('string'),
   broadcastId: attr('string'),
   status: attr('string'),
-  tagList: attr(),
+  tagList: attr('string-list'),
   recordedAt: attr('string'),
   game: attr('string'),
   length: attr('number'),
