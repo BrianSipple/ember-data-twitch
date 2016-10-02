@@ -1,10 +1,10 @@
 import { isPresent } from 'ember-utils';
-import EmberString from 'ember-string';
+import { underscore } from 'ember-string';
 import JSONAPISerializer from 'ember-data/serializers/json-api';
 import Inflector from 'ember-inflector';
+import get from 'ember-metal/get';
 
 const { inflector } = Inflector;
-const { underscore } = EmberString;
 
 
 /**
@@ -72,12 +72,18 @@ export default JSONAPISerializer.extend({
     const selfLink = recordHash[keyForLink] ? recordHash[keyForLink].self : {};
 
     const type = this.clientTypeName(typeClass);
-    const id = recordHash[this.get('primaryKey')];
+    const id = recordHash[get(this, 'primaryKey')];
     const links = { self: selfLink };
     const attributes = this.__extractAttributes(typeClass, recordHash);
     const relationships = this.__extractRelationships(typeClass, recordHash, keyForLink);
 
-    return { type, id, attributes, relationships, links };
+    return {
+      type,
+      id,
+      attributes,
+      relationships,
+      links
+    };
   },
 
   _buildRelationships() {
@@ -87,9 +93,8 @@ export default JSONAPISerializer.extend({
   __extractAttributes(modelClass, resourceHash /* , serializer */) {
     const attributes = {};
 
-    let payloadKey;
     modelClass.eachAttribute((attributeName) => {
-      payloadKey = this.keyForAttribute(attributeName);
+      const payloadKey = this.keyForAttribute(attributeName);
 
       attributes[attributeName] = resourceHash[payloadKey];
     });
