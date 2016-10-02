@@ -13,8 +13,7 @@ export default Component.extend({
   video: null,
 
   title: readOnly('video.title'),
-  // description: readOnly('video.description') || '(No description)',
-  description: `I'll keep all my plans close to my chest. I'll wait here and see which way the wind will blow`.repeat(10).toUpperCase(),
+  description: readOnly('video.description') || '(No description)'.repeat(50),
   viewCount: readOnly('video.views') || 0,
   game: readOnly('video.game'),
   previewSrc: readOnly('video.preview'),

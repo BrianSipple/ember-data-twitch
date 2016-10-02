@@ -2,6 +2,7 @@ import Ember from 'ember';
 import JSONAPIAdapter from 'ember-data/adapters/json-api';
 import Inflector from 'ember-inflector';
 import DS from 'ember-data';
+import ENV from 'dummy/config/environment';
 
 const { inflector } = Inflector;
 const { InvalidError } = DS;
@@ -61,5 +62,4 @@ export default JSONAPIAdapter.extend({
     }
     return this._super(...arguments);
   }
-
 });
