@@ -12,12 +12,12 @@ const { $: { parseJSON } } = Ember;
 export default JSONAPIAdapter.extend({
   host: 'https://api.twitch.tv',
   namespace: 'kraken',
-  apiKey: null,
 
-  defaultSerializer: 'twitch',
+  defaultSerializer: '-twitch',
 
   headers: {
-    'Accept': 'application/vnd.twitchtv.v3+json'
+    Accept: 'application/vnd.twitchtv.v3+json',
+    'Client-ID': 'e18ok8watl2s2y3t86yhyyibm3ew3k2'   // TODO: Merge in branch that does this right
   },
 
   pathForType(modelName) {
@@ -28,7 +28,6 @@ export default JSONAPIAdapter.extend({
     const data = this._super(...arguments) || {};
     return data;
   },
-
 
   /**
    * Currently, `ajaxOptions` is still the only place to alter

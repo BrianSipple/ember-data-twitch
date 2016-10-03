@@ -1,9 +1,6 @@
 import Component from 'ember-component';
-import computed from 'ember-computed';
+import { readOnly } from 'ember-computed';
 import layout from '../templates/components/video-card';
-
-const { readOnly } = computed;
-
 
 export default Component.extend({
   layout,

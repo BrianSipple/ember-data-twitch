@@ -6,12 +6,14 @@ const { Transform } = DS;
 
 export default Transform.extend({
   // get it from the server
-  deserialize(serialized) {
-    return typeof serialized === 'string' ? A(serialized.split(/,\s*/)) : A();
+  deserialize(serialized, { delimiter } = { delimiter: /,\s*/ }) {
+    debugger;
+    return typeof serialized === 'string' ? A(serialized.split(delimiter)) : A();
   },
 
   // send it back to the server
-  serialize(deserialized) {
-    return isEmberArray(deserialized) ? deserialized.join(', ') : '';
+  serialize(deserialized, { separator } = { separator: ', ' }) {
+    debugger;
+    return isEmberArray(deserialized) ? deserialized.join(separator) : '';
   }
 });

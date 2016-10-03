@@ -1,6 +1,8 @@
 import Route from 'ember-route';
 import injectService from 'ember-service/inject';
 import { A, isEmberArray } from 'ember-array/utils';
+import get from 'ember-metal/get';
+import set from 'ember-metal/set';
 
 export default Route.extend({
   TwitchAPIService: injectService('twitch-api'),
@@ -58,12 +60,11 @@ export default Route.extend({
 
   _fillSearchResults(searchResponse) {
     debugger;
-    const currentSearchResults = this.get('currentModel.searchResults');
+    const currentSearchResults = get(this, 'currentModel.searchResults');
     const method = isEmberArray(searchResponse) ? 'pushObjects' : 'pushObject';
 
-    this.set('currentModel.videoIdToSearch', '');
+    set(this, 'currentModel.videoIdToSearch', '');
     currentSearchResults.clear();
     currentSearchResults[method](searchResponse);
   }
-
 });

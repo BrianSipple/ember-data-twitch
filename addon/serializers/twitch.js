@@ -14,19 +14,24 @@ const { inflector } = Inflector;
  * For an example collection response, @see: https://github.com/justintv/Twitch-API/blob/master/v3_resources/videos.md#example-response-1
  */
 export default JSONAPISerializer.extend({
-
   /**
-   * Model type as conceptualized by the server. Internally, (that is,
-   * for our client-side models, this name will be prefixed with "twitch-")
+   * Response payload key for a model name. This assumes that internally, our
+   * client-side models will be prefixed with "twitch-"
    *
    * usage: override this and define in each specific model's serializer
    */
-  serverRecordKey(modelName) {
+  payloadKeyFromModelName(modelName) {
     return inflector.pluralize(modelName.replace('twitch-', ''));
   },
 
   /**
    * The "type" value to use for our client-side data store.
+   * @see: http://jsonapi.org/format/#document-resource-object-identification
+   *
+   * 🔑 NOTE: The JSON-API spec is agnostic to whether or not this should
+   * be plural or singular (but advises consistency). However,
+   * Ember Data appears to expect it to match a valid
+   * model name... so we'll be consistent with that.
    */
   clientTypeName(typeClass) {
     return typeClass.modelName;
@@ -34,9 +39,19 @@ export default JSONAPISerializer.extend({
 
   primaryKey: '_id',
 
-  // relationshipPrimaryKeys: {
-  //   'twitch-channel': 'name'
-  // },
+  linkURLPrefix: '/',
+
+  linkPathFromType(modelName) {
+    debugger;
+    return this.store.adapterFor(modelName).pathForType(modelName);
+  },
+
+  makeSelfLink(modelName, id) {
+    const urlPrefix = get(this, 'linkURLPrefix');
+    const linkPathName = this.linkPathFromType(modelName);
+
+    return `${urlPrefix}${linkPathName}/${id}`;
+  },
 
   /**
    * Converts an attribute name in the model to a JSON payload key.
@@ -144,7 +159,7 @@ export default JSONAPISerializer.extend({
    */
   normalizeResponse(store, primaryModelClass, payload/* , id, requestType*/) {
     // Get the key that the server is using to represent our model
-    const recordKey = this.serverRecordKey(primaryModelClass.modelName);
+    const recordKey = this.payloadKeyFromModelName(primaryModelClass.modelName);
 
     // the resource will either be a list at the `recordKey` property (collection responses),
     //  or the root of the payload (single responses)
