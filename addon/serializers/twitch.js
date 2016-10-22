@@ -42,7 +42,6 @@ export default JSONAPISerializer.extend({
   linkURLPrefix: '/',
 
   linkPathFromType(modelName) {
-    debugger;
     return this.store.adapterFor(modelName).pathForType(modelName);
   },
 

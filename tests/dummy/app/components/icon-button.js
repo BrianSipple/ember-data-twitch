@@ -8,8 +8,8 @@ export default Component.extend({
   tagName: 'button',
   attributeBindings: ['disabled', 'aria-label'],
 
-  classNames: ['c-icon-button', 'u-pointer', 'o-content-box'],
-  classNameBindings: ['sizeClass'],
+  classNames: ['c-button', 'c-button--icon-button'],
+  classNameBindings: ['tapTargetSizeClass'],
 
   disabled: false,
   'aria-label': null,
@@ -17,18 +17,23 @@ export default Component.extend({
   stroke: 'currentColor',
   fill: 'currentColor',
   strokeWidth: '0.125em',
+  iconWidth: '75%',
+  iconHeight: '75%',
   ariaHidden: true,
   size: 'md',
 
-  sizeClass: computed('size', {
+  tapTargetSizeClass: computed('size', {
     get() {
-      const size = this.get('size') || 'md';
+      const size = (this.get('size') || 'md').toLowerCase();
 
       return {
-        'sm': 'o-tap-target--sm',
-        'md': 'o-tap-target--md',
-        'lg': 'o-tap-target--lg'
-      }[size.toLowerCase()];
+        sm: 'o-tap-target--sm',
+        small: 'o-tap-target--sm',
+        md: 'o-tap-target--md',
+        medium: 'o-tap-target--md',
+        lg: 'o-tap-target--lg',
+        large: 'o-tap-target--lg'
+      }[size];
     }
   })
 });

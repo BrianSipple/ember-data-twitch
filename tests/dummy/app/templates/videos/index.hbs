@@ -12,14 +12,36 @@
         <p class="c-form-field">
           <label class="c-text-input-label" for="find-by-video-id">Find one by Video ID (test: v92483945)</label>
           <span class="c-input-button-combo u-fill-width">
+            {{!--
             {{input
               id="find-by-video-id"
               class="c-text-input c-input-button-combo__input"
-              placeholder="For example, &quot;v92483945&quot;"
+              placeholder="For example, &#34;v92483945&#34;"
               value=model.videoIdToSearch
               type="search"
+              required="true"
             }}
-            {{x-button class="c-input-button-combo__button" type="submit" title="Search" disabled=model.videosPage.isLoadingData}}
+            <input
+              id="find-by-video-id"
+              class="c-text-input c-input-button-combo__input"
+              placeholder="For example, &#34;v92483945&#34;"
+              value=model.videoIdToSearch
+              type="search"
+              required="true"
+            >
+
+            --}}
+
+            {{input
+              id="find-by-video-id"
+              class="c-text-input c-input-button-combo__input"
+              placeholder=(html-safe 'For example, "v92483945"')
+              value=model.videoIdToSearch
+              type="search"
+              required="true"
+            }}
+
+            {{x-button class="c-input-button-combo__button c-button--primary" type="submit" title="Search" disabled=model.isLoadingData}}
           </span>
         </p>
       {{/x-form}}
@@ -41,9 +63,10 @@
           </span>
         </p>
       {{/x-form}}--}}
+
       {{#x-form class="p-videos__search-option u-mt2" onSubmit=(route-action 'findByPopularity')}}
         {{x-button
-          class="u-fill-width p-videos__search-option--button"
+          class="u-fill-width p-videos__search-option--button c-button--primary"
           type="submit"
           title="Find Most Popular Videos"
           disabled=model.isLoadingData

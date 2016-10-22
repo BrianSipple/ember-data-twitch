@@ -2,30 +2,45 @@ import Ember from 'ember';
 import JSONAPIAdapter from 'ember-data/adapters/json-api';
 import Inflector from 'ember-inflector';
 import DS from 'ember-data';
-import ENV from 'dummy/config/environment';
+import TwitchConfig from 'ember-data-twitch/configuration';
 
-const { inflector } = Inflector;
-const { InvalidError } = DS;
-const { $: { parseJSON } } = Ember;
-
+let { inflector } = Inflector;
+let { InvalidError } = DS;
+let { $: { parseJSON } } = Ember;
 
 export default JSONAPIAdapter.extend({
   host: 'https://api.twitch.tv',
   namespace: 'kraken',
-
   defaultSerializer: '-twitch',
+  pluralizePath: true,
+  clientID: '',
+
+  init() {
+    this._super(...arguments);
+
+    this._initHeaders();
+  },
 
   headers: {
     Accept: 'application/vnd.twitchtv.v3+json',
-    'Client-ID': 'e18ok8watl2s2y3t86yhyyibm3ew3k2'   // TODO: Merge in branch that does this right
+    'Client-ID': TwitchConfig.clientID
   },
 
+  /**
+   * Determines a path for a given type
+   *
+   * By default, we'll aim to return camelized, plurailzed forms of the model name,
+   * as that's currently the Twitch API's most common pattern. Some resources differ,
+   * however, and these cases can be handled by local overrides.
+   */
   pathForType(modelName) {
-    return inflector.pluralize(modelName.replace('twitch-', ''));
+    let baseName = modelName.replace('twitch-', '');
+
+    return this.get('pluralizePath') ? inflector.pluralize(baseName) : baseName;
   },
 
   dataForRequest() {
-    const data = this._super(...arguments) || {};
+    let data = this._super(...arguments) || {};
     return data;
   },
 
@@ -35,7 +50,7 @@ export default JSONAPIAdapter.extend({
    * @see: https://github.com/emberjs/data/pull/4357
    */
   ajaxOptions() {
-    const hash = this._super(...arguments);
+    let hash = this._super(...arguments);
     hash.dataType = this.get('dataType');
 
     return hash;
@@ -60,5 +75,18 @@ export default JSONAPIAdapter.extend({
       ]);
     }
     return this._super(...arguments);
+  },
+
+  _initHeaders() {
+    this.clientID = this.clientID ? this.clientID : TwitchConfig.clientID;
+
+    if (!this.clientID) {
+      throw new Error(
+        'This adapter requires a `clientID` to be set before using the Twitch API ' +
+        'You can define a root `clientID` in the `ENV[\'ember-data-twitch\']` hash of `config/environment.js`'
+      );
+    }
+
+    this.headers['Client-ID'] = this.clientID;
   }
 });

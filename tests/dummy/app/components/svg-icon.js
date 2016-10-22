@@ -1,10 +1,11 @@
-import layout from '../templates/components/svg-icon';
 import Component from 'ember-component';
 import computed from 'ember-computed';
+import ENV from '../config/environment';
 
+const { rootURL } = ENV;
 
 export default Component.extend({
-  layout,
+  classNames: ['c-icon'],
   tagName: 'svg',
 
   attributeBindings: [
@@ -25,8 +26,14 @@ export default Component.extend({
     'style'
   ],
 
-  iconURL: null,
+  rootURL,
+  iconURL: '',
 
+  svgIconURL: computed('rootURL', 'iconURL', {
+    get() {
+      return `${this.get('rootURL')}${this.get('iconURL')}`;
+    }
+  }),
 
   // Default attributes
   version: '1.1',
@@ -34,6 +41,8 @@ export default Component.extend({
   height: '1em',
   xmlns: 'http://www.w3.org/2000/svg',
   xmlnsXlink: 'http://www.w3.org/1999/xlink',
+  stroke: null,
+  fill: null,
   'stroke-width': '0.125em',
 
   /**

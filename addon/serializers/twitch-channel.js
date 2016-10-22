@@ -1,8 +1,5 @@
-import DS from 'ember-data';
+import TwitchSerializer from 'ember-data-twitch/serializers/twitch';
 
-const { JSONAPISerializer } = DS;
-
-
-export default JSONAPISerializer.extend({
+export default TwitchSerializer.extend({
   primaryKey: 'name'
 });

@@ -1,11 +1,16 @@
-import Ember from 'ember';
+import Route from 'ember-route';
+import get from 'ember-metal/get';
+import set from 'ember-metal/set';
 import injectService from 'ember-service/inject';
-
-const { Route } = Ember;
-
 
 export default Route.extend({
   SidenavService: injectService('sidenav'),
+
+  model() {
+    return {
+      sidenav: get(this, 'SidenavService')
+    };
+  },
 
   actions: {
     authenticate() {
@@ -15,7 +20,15 @@ export default Route.extend({
 
     willTransition(transition) {
       const activeTopLevelRoute = transition.targetName.split('.')[0];
-      this.get('SidenavService').set('activeTopLevelRoute', activeTopLevelRoute);
+
+      set(this, 'SidenavService.activeTopLevelRoute', activeTopLevelRoute);
+    },
+
+    toggleSidenav() {
+      const SidenavService = get(this, 'SidenavService');
+
+      SidenavService.toggleProperty('isVisible');
+      SidenavService.toggleProperty('isAnimatable');
     }
   }
 });

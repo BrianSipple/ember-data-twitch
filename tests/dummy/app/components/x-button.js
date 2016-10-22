@@ -10,5 +10,4 @@ export default Component.extend({
 
   title: null,
   disabled: false
-
 });
