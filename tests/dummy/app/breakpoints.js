@@ -1,11 +1,11 @@
 /**
- * Breakpoint threshold measurements in pixels.
+ * Breakpoint threshold measurements in ems.
  */
-const THRESHOLDS = {
-  mobile: 414,
-  tablet: 768,
-  smallDesktop: 1023,
-  largeDesktop: 1440
+let THRESHOLDS = {
+  mobile: 30,
+  tablet: 49.125,
+  smallDesktop: 64,
+  largeDesktop: 90
 };
 
 /**
@@ -18,18 +18,18 @@ const THRESHOLDS = {
  *      - for example, "{{#if media.isMobile}}"
  */
 export default {
-  mobile: `(max-width: ${THRESHOLDS.mobile}px)`,
-  tablet: `(min-width: ${THRESHOLDS.mobile + 1}px) and (max-width: ${THRESHOLDS.tablet}px)`,
-  smallDesktop: `(min-width: ${THRESHOLDS.tablet + 1}px) and (max-width: ${THRESHOLDS.smallDesktop}px)`,
-  largeDesktop: `(min-width: ${THRESHOLDS.smallDesktop + 1}px)`,  // AKA "monitor"
+  mobile: `(max-width: ${THRESHOLDS.mobile}em)`,
+  tablet: `(min-width: ${THRESHOLDS.mobile + 1}em) and (max-width: ${THRESHOLDS.tablet}em)`,
+  smallDesktop: `(min-width: ${THRESHOLDS.tablet + 1}em) and (max-width: ${THRESHOLDS.smallDesktop}em)`,
+  largeDesktop: `(min-width: ${THRESHOLDS.smallDesktop + 1}em)`,  // AKA "monitor"
 
   // meta semantic helpers
-  greaterThanMobile: `(min-width: ${THRESHOLDS.mobile + 1}px)`,
-  greaterThanTablet: `(min-width: ${THRESHOLDS.tablet + 1}px)`,
-  greaterThanSmallDesktop: `(min-width: ${THRESHOLDS.smallDesktop + 1}px)`,
-  greaterThanLargeDesktop: `(min-width: ${THRESHOLDS.largeDesktop + 1}px)`,
+  greaterThanMobile: `(min-width: ${THRESHOLDS.mobile + 1}em)`,
+  greaterThanTablet: `(min-width: ${THRESHOLDS.tablet + 1}em)`,
+  greaterThanSmallDesktop: `(min-width: ${THRESHOLDS.smallDesktop + 1}em)`,
+  greaterThanLargeDesktop: `(min-width: ${THRESHOLDS.largeDesktop + 1}em)`,
 
-  lessThanTablet: `(max-width: ${THRESHOLDS.tablet}px)`,
-  lessThanSmallDesktop: `(max-width: ${THRESHOLDS.tablet}px)`,
-  lessThanLargeDesktop: `(max-width: ${THRESHOLDS.smallDesktop}px)`
+  lessThanTablet: `(max-width: ${THRESHOLDS.mobile}em)`,
+  lessThanSmallDesktop: `(max-width: ${THRESHOLDS.tablet}em)`,
+  lessThanLargeDesktop: `(max-width: ${THRESHOLDS.smallDesktop}em)`
 };

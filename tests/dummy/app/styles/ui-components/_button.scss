@@ -9,6 +9,7 @@
   color: $theme-color__nearWhite;
   border: 0;
   cursor: pointer;
+  font-weight: bold;
 
   // mask for "disabled" state
   &::after {

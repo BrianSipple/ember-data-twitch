@@ -1,20 +1,19 @@
-.p-videos {
+.p-videos .p-videos__search-options-section,
+.p-videos .p-videos__search-results-section {
+  margin-top: 2rem;
+}
 
-  .p-videos__search-options-section,
-  .p-videos__search-results-section {
-    margin-top: 2rem;
-  }
+.p-videos .p-videos__search-options {
+  width: 100%;    
+}
+.p-videos.media-greater-than-mobile .p-videos__search-options {
+  width: 28rem;  
+}
 
-  .p-videos__search-options {
-    width: 26rem;
-  }
+.p-videos .p-videos__search-option--button {
+  line-height: 2.5rem;
+}
 
-  .p-videos__search-option--button {
-    line-height: 2.5rem;
-  }
-
-
-  .p-videos__search-results-card {
-    margin: 1em auto;
-  }
+.p-videos .p-videos__search-results-card {
+  margin: 1em auto;
 }

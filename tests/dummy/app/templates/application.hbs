@@ -3,7 +3,6 @@
   class=(concat
     "application__sidenav "
     "u-fill-height "
-    media.classNames
     (if model.sidenav.isVisible ' application__sidenav--visible')
     (if model.sidenav.isAnimatable ' application__sidenav--animatable')
   )
@@ -11,11 +10,14 @@
 
 {{!-- Navbar --}}
 <header
-  class="application__navbar
-         c-navbar
-         o-content-box
-         {{if model.sidenav.isVisible 'application__navbar--sidenav-visible'}}
-         {{media.classNames}}">
+  class={{concat
+    'application__navbar '
+    'c-navbar '
+    'o-content-box '
+    (if model.sidenav.isVisible 'application__navbar--sidenav-visible')
+    media.classNames
+  }}
+>
 
   {{!-- Sidenav toggle --}}
   {{icon-button

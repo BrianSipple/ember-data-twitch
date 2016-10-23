@@ -1,4 +1,6 @@
 import Service from 'ember-service';
+import get from 'ember-metal/get';
+import set from 'ember-metal/set';
 import injectService from 'ember-service/inject';
 
 
@@ -25,12 +27,13 @@ export default Service.extend({
 
   init() {
     this._super(...arguments);
+
     this._initSidenavVisibility();
   },
 
   _initSidenavVisibility() {
-    const MediaService = this.get('MediaService');
+    let MediaService = get(this, 'MediaService');
 
-    this.set('isVisible', MediaService.isGreaterThanTablet);
+    set(this, 'isVisible', MediaService.isGreaterThanTablet);
   }
 });

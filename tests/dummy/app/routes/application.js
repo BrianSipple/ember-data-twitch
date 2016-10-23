@@ -3,7 +3,7 @@ import get from 'ember-metal/get';
 import set from 'ember-metal/set';
 import injectService from 'ember-service/inject';
 
-export default Route.extend({
+export default Route.extend({  
   SidenavService: injectService('sidenav'),
 
   model() {

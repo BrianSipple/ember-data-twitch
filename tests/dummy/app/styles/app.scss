@@ -59,13 +59,14 @@ $easing__hide-sidenav: $easing__accelerating-exit;
    * our top-level page pieces AS we horizontally translate the sidenav.
    */
   transition-property: margin;
+  min-width: $breakpoint-threshold--small;
 }
 
 
 /* ----------------- PERFORM SIDENAV ANIMATION ----------------- */
 
 .application__main-content--sidenav-visible {
-  margin-left: $width__sidenav;
+  margin-left: $width__sidenav;  
 }
 
 .application__sidenav--visible {
