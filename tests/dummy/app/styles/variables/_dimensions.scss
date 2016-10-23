@@ -1,0 +1,16 @@
+$height__navbar: 4rem;
+$width__flash-message: 23rem;
+$width__sidenav: 16.25rem;
+$min-width__navbar: $width__sidenav * 1.5;
+
+$dimension__tap-target--sm: 2rem;
+$dimension__tap-target--md: 3rem;
+$dimension__tap-target--lg: 5rem;
+
+/*
+ * 180:130 padding ratio to align content aspect ratio with human FOV
+ */
+$padding__content-box--horizontal: 1.05em;
+$padding__content-box--horizontal-lg: 2.10em;
+$padding__content-box--vertical: 0.75em;
+$padding__content-box--vertical-lg: 1.5em;

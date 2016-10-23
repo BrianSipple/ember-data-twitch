@@ -1,7 +1,8 @@
 {{!-- Sideways-expanding/collapsing sidenav --}}
 {{x-sidenav
   class=(concat
-    "application__sidenav u-fill-height u-relative "
+    "application__sidenav "
+    "u-fill-height "
     media.classNames
     (if model.sidenav.isVisible ' application__sidenav--visible')
     (if model.sidenav.isAnimatable ' application__sidenav--animatable')
@@ -37,7 +38,6 @@
 <main
   class="application__main-content
          u-fill-height
-         u-relative
          o-content-box--lg
          {{if model.sidenav.isVisible 'application__main-content--sidenav-visible'}}
          {{media.classNames}}">
